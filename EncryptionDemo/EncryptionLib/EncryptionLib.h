@@ -14,8 +14,8 @@
     
 }
 
-+ (NSData *) md5:(NSString *)str;
-
++ (NSString *)md5encrypt:(NSString *)inputStr;
++ (NSString *)sha1encrypt:(NSString *)inputStr;
 
 + (NSData *) doCipherUseAesMethod:(NSData *)sTextIn
                               key:(NSData *)sKey
@@ -33,9 +33,8 @@
                                key:(NSData *)sKey
                            context:(CCOperation)encryptOrDecrypt;
 
-+ (NSString *) encodeBase64WithString:(NSString *)strData;
-
-+ (NSString *) encodeBase64WithData:(NSData *)objData;
++ (NSString *)encodeBase64WithString:(NSString *)inputStr;
++ (NSString *)encodeBase64WithData:(NSData *)inputData;
 
 + (NSData *) decodeBase64WithString:(NSString *)strBase64;
 

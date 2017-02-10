@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Base64ViewController">
+            <connections>
+                <outlet property="encryptTextView" destination="CU2-h0-bp9" id="6W3-3Q-P9k"/>
+                <outlet property="resultTextView" destination="Tp1-Rq-aDB" id="wuo-iF-1n1"/>
+                <outlet property="selectAlgorithmBtn" destination="jqU-lT-BKg" id="fWT-db-vAP"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CU2-h0-bp9">
+                    <rect key="frame" x="8" y="110" width="584" height="139"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="139" id="pwS-vN-vJt"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="明文:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bg6-Uc-7bX">
+                    <rect key="frame" x="8" y="81" width="42" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="42" id="oF0-ev-LWj"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqU-lT-BKg">
+                    <rect key="frame" x="20" y="269" width="60" height="30"/>
+                    <state key="normal" title="选择算法"/>
+                    <connections>
+                        <action selector="onSelectAlgorithm:" destination="-1" eventType="touchUpInside" id="OGl-bK-etq"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LsA-mp-UPG">
+                    <rect key="frame" x="131" y="269" width="38" height="30"/>
+                    <state key="normal" title="加  密"/>
+                    <connections>
+                        <action selector="onEncrypt:" destination="-1" eventType="touchUpInside" id="gR4-4g-rKr"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tp1-Rq-aDB">
+                    <rect key="frame" x="8" y="325" width="584" height="139"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="139" id="l9c-O4-B3v"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="LsA-mp-UPG" firstAttribute="leading" secondItem="jqU-lT-BKg" secondAttribute="trailing" constant="51" id="EXB-yH-W0l"/>
+                <constraint firstItem="Tp1-Rq-aDB" firstAttribute="leading" secondItem="CU2-h0-bp9" secondAttribute="leading" id="LKk-Nd-73x"/>
+                <constraint firstItem="jqU-lT-BKg" firstAttribute="top" secondItem="CU2-h0-bp9" secondAttribute="bottom" constant="20" id="MEH-Sv-7bp"/>
+                <constraint firstItem="bg6-Uc-7bX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="PCZ-X9-q9B"/>
+                <constraint firstItem="LsA-mp-UPG" firstAttribute="centerY" secondItem="jqU-lT-BKg" secondAttribute="centerY" id="XKE-7M-JGA"/>
+                <constraint firstItem="bg6-Uc-7bX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="81" id="XWL-JA-nHo"/>
+                <constraint firstItem="CU2-h0-bp9" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailingMargin" id="Y5k-9y-h1A"/>
+                <constraint firstItem="Tp1-Rq-aDB" firstAttribute="height" secondItem="CU2-h0-bp9" secondAttribute="height" id="ZxY-5p-9K5"/>
+                <constraint firstItem="Tp1-Rq-aDB" firstAttribute="top" secondItem="jqU-lT-BKg" secondAttribute="bottom" constant="26" id="bXp-Rd-IYL"/>
+                <constraint firstItem="Tp1-Rq-aDB" firstAttribute="width" secondItem="CU2-h0-bp9" secondAttribute="width" id="c4f-6u-eJz"/>
+                <constraint firstItem="CU2-h0-bp9" firstAttribute="leading" secondItem="bg6-Uc-7bX" secondAttribute="leading" id="igU-dQ-7m0"/>
+                <constraint firstItem="jqU-lT-BKg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="nct-Id-h88"/>
+                <constraint firstItem="CU2-h0-bp9" firstAttribute="top" secondItem="bg6-Uc-7bX" secondAttribute="bottom" constant="8" symbolic="YES" id="ntx-eC-jBS"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+        </view>
+    </objects>
+</document>

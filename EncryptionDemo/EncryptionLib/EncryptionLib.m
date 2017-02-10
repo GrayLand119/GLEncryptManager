@@ -31,37 +31,37 @@ static const short _base64DecodingTable[256] = {
 
 @implementation EncryptionLib
 
-+ (NSString *) md5:(NSString *)str
++ (NSString *) md5encrypt:(NSString *)inputStr
 {
+    const char *cStr = [inputStr UTF8String];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
     
-    const char *cStr = [str UTF8String];
+    CC_MD5( cStr, (unsigned int)strlen(cStr), digest );
     
-    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
-    CC_MD5( cStr, strlen(cStr), result );
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
     
-    return [NSString
-            
-            stringWithFormat: @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-            
-            result[0], result[1],
-            
-            result[2], result[3],
-            
-            result[4], result[5],
-            
-            result[6], result[7],
-            
-            result[8], result[9],
-            
-            result[10], result[11],
-            
-            result[12], result[13],
-            
-            result[14], result[15]
-            
-            ];
+    return output;
+}
+
++ (NSString *)sha1encrypt:(NSString *)inputStr
+{
+    const char *cstr = [inputStr cStringUsingEncoding:NSUTF8StringEncoding];
     
+    NSData *data = [NSData dataWithBytes:cstr length:inputStr.length];
+    //使用对应的CC_SHA1,CC_SHA256,CC_SHA384,CC_SHA512的长度分别是20,32,48,64
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    //使用对应的CC_SHA256,CC_SHA384,CC_SHA512
+    CC_SHA1(data.bytes, (unsigned int)data.length, digest);
+    
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    return output;
 }
 
 + (NSData *)doCipher:(NSData *)sTextIn
@@ -167,7 +167,7 @@ static const short _base64DecodingTable[256] = {
 + (NSData*)doCipherUse3DesMethod:(NSData *)sTextIn
                              key:(NSData *)sKey
                          context:(CCOperation)encryptOrDecrypt{
-    return [CryptionUseSysLib doCipher:sTextIn
+    return [EncryptionLib doCipher:sTextIn
                                    key:sKey
                              Algorithm:kCCAlgorithm3DES context:encryptOrDecrypt];
 }
@@ -176,7 +176,7 @@ static const short _base64DecodingTable[256] = {
                                key:(NSData *)sKey
                            context:(CCOperation)encryptOrDecrypt{
     
-    return [CryptionUseSysLib doCipher:sTextIn
+    return [EncryptionLib doCipher:sTextIn
                                    key:sKey
                              Algorithm:kCCAlgorithmCAST context:encryptOrDecrypt];
     
@@ -185,7 +185,7 @@ static const short _base64DecodingTable[256] = {
 + (NSData*)doCipherUseDesMethod:(NSData *)sTextIn
                             key:(NSData *)sKey
                         context:(CCOperation)encryptOrDecrypt{
-    return [CryptionUseSysLib doCipher:sTextIn
+    return [EncryptionLib doCipher:sTextIn
                                    key:sKey
                              Algorithm:kCCAlgorithmDES
                                context:encryptOrDecrypt];
@@ -194,24 +194,34 @@ static const short _base64DecodingTable[256] = {
 + (NSData*)doCipherUseAesMethod:(NSData *)sTextIn
                             key:(NSData *)sKey
                         context:(CCOperation)encryptOrDecrypt{
-    return [CryptionUseSysLib doCipher:sTextIn
+    return [EncryptionLib doCipher:sTextIn
                                    key:sKey
                              Algorithm:kCCAlgorithmAES128
                                context:encryptOrDecrypt];
 }
 
-+ (NSString *)encodeBase64WithString:(NSString *)strData {
-    return [CryptionUseSysLib encodeBase64WithData:[strData dataUsingEncoding:NSUTF8StringEncoding]];
++ (NSString *)encodeBase64WithString:(NSString *)inputStr
+{
+#ifdef __IPHONE_7_0
+    NSData *preData = [inputStr dataUsingEncoding:NSUTF8StringEncoding];
+    return [preData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+#else
+    NSData *data = [inputStr dataUsingEncoding:NSUTF8StringEncoding];
+    return [EncryptionLib encodeBase64WithData:data];
+#endif
 }
 
 + (NSString *)encodeBase64WithData:(NSData *)objData {
     
+#ifdef __IPHONE_7_0
+    return [objData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+#else
     const unsigned char * objRawData = [objData bytes];
     char * objPointer;
     char * strResult;
     
     // Get the Raw Data length and ensure we actually have data
-    int intLength = [objData length];
+    int intLength = (int)[objData length];
     if (intLength == 0) return nil;
     
     // Setup the String-based Result placeholder and pointer within that placeholder
@@ -249,11 +259,16 @@ static const short _base64DecodingTable[256] = {
     
     // Return the results as an NSString object
     return [NSString stringWithCString:strResult encoding:NSASCIIStringEncoding];
+#endif
 }
 
 + (NSData *)decodeBase64WithString:(NSString *)strBase64 {
+    
+#ifdef __IPHONE_7_0
+    return [[NSData alloc] initWithBase64EncodedString:strBase64 options:NSDataBase64DecodingIgnoreUnknownCharacters];
+#else
     const char * objPointer = [strBase64 cStringUsingEncoding:NSASCIIStringEncoding];
-    int intLength = strlen(objPointer);
+    int intLength = (int)strlen(objPointer);
     int intCurrent;
     int i = 0, j = 0, k;
     
@@ -321,9 +336,12 @@ static const short _base64DecodingTable[256] = {
     } 
     
     // Cleanup and setup the return NSData 
-    NSData * objData = [[[NSData alloc] initWithBytes:objResult length:j] autorelease]; 
-    free(objResult); 
-    return objData; 
+    NSData * objData = [[NSData alloc] initWithBytes:objResult length:j];
+    
+    free(objResult);
+    
+    return objData;
+#endif
 } 
 
 @end
