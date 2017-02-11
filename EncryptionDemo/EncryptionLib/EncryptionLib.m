@@ -8,6 +8,8 @@
 
 #import "EncryptionLib.h"
 
+#ifndef __IPHONE_7_0
+
 static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static const short _base64DecodingTable[256] = {
@@ -29,10 +31,13 @@ static const short _base64DecodingTable[256] = {
     -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2
 };
 
+#endif
+
 @implementation EncryptionLib
 
-+ (NSString *) md5encrypt:(NSString *)inputStr
-{
+#pragma -mark Hash
+
++ (NSString *)encryptMD5WithString:(NSString *)inputStr {
     const char *cStr = [inputStr UTF8String];
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     
@@ -46,8 +51,7 @@ static const short _base64DecodingTable[256] = {
     return output;
 }
 
-+ (NSString *)sha1encrypt:(NSString *)inputStr
-{
++ (NSString *)encryptSHA1WithString:(NSString *)inputStr {
     const char *cstr = [inputStr cStringUsingEncoding:NSUTF8StringEncoding];
     
     NSData *data = [NSData dataWithBytes:cstr length:inputStr.length];
@@ -64,16 +68,67 @@ static const short _base64DecodingTable[256] = {
     return output;
 }
 
-+ (NSData *)doCipher:(NSData *)sTextIn
-                 key:(NSData *)sKey
-           Algorithm:(CCAlgorithm)algorithm
-             context:(CCOperation)encryptOrDecrypt {
+#pragma -mark Encrypt & Decrypt
+
++ (NSData *)excuteAES128WithData:(NSData *)inputData
+                     secureKey:(NSData *)key
+                     operation:(CCOperation)operation {
+    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmAES128 operation:operation];
+}
+
++ (NSData *)excuteAES256WithData:(NSData *)inputData
+                     secureKey:(NSData *)key
+                     operation:(CCOperation)operation {
+    char keyPtr[kCCKeySizeAES256+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    NSString *keyStr = [[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding];
+    [keyStr getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    NSUInteger dataLength = [inputData length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    size_t numBytesEncrypted = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(operation, kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding | kCCOptionECBMode,
+                                          keyPtr, kCCBlockSizeAES128,
+                                          NULL,
+                                          [inputData bytes], dataLength,
+                                          buffer, bufferSize,
+                                          &numBytesEncrypted);
+    if (cryptStatus == kCCSuccess) {
+        return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
+    }
+    free(buffer);
+    return nil;
+}
+
++ (NSData *)excuteDESWithData:(NSData *)inputData
+                        secureKey:(NSData *)key
+                        operation:(CCOperation)operation {
+    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmDES operation:operation];
+}
+
++ (NSData *)excute3DESWithData:(NSData *)inputData
+                     secureKey:(NSData *)key
+                     operation:(CCOperation)operation {
+    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithm3DES operation:operation];
+}
+
++ (NSData *)excuteCASTWithData:(NSData *)inputData
+                     secureKey:(NSData *)key
+                     operation:(CCOperation)operation {
+    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmCAST operation:operation];
+}
+
++ (NSData *)encryptWithData:(NSData *)inputData
+                  secureKey:(NSData *)key
+                  algorithm:(CCAlgorithm)algorithm
+                  operation:(CCOperation)operation {
     
     NSData * dTextIn;
     
-    dTextIn = [sTextIn mutableCopy];
+    dTextIn = [inputData mutableCopy];
     
-    NSMutableData * dKey = [sKey mutableCopy];
+    NSMutableData * dKey = [key mutableCopy];
     int moreSize = 0;
     
     //make key to standard;
@@ -110,13 +165,13 @@ static const short _base64DecodingTable[256] = {
     unsigned char iv[8];
     memset(iv, 0, 8);
     
-    bufferPtrSize1 = [sTextIn length] + moreSize;
+    bufferPtrSize1 = [inputData length] + moreSize;
     
     bufferPtr1 = malloc(bufferPtrSize1);
     memset((void *)bufferPtr1, 0, bufferPtrSize1);
     
     // cryption....
-    CCCryptorStatus ccStatus = CCCrypt(encryptOrDecrypt, // CCOperation op
+    CCCryptorStatus ccStatus = CCCrypt(operation, // CCOperation op
                                        algorithm, // CCAlgorithm alg
                                        kCCOptionPKCS7Padding|kCCOptionECBMode, // CCOptions options
                                        [dKey bytes], // const void *key
@@ -164,44 +219,9 @@ static const short _base64DecodingTable[256] = {
     return nil;
 }
 
-+ (NSData*)doCipherUse3DesMethod:(NSData *)sTextIn
-                             key:(NSData *)sKey
-                         context:(CCOperation)encryptOrDecrypt{
-    return [EncryptionLib doCipher:sTextIn
-                                   key:sKey
-                             Algorithm:kCCAlgorithm3DES context:encryptOrDecrypt];
-}
+#pragma mark - Base64
 
-+ (NSData *) doCipherUseCastMethod:(NSData *)sTextIn
-                               key:(NSData *)sKey
-                           context:(CCOperation)encryptOrDecrypt{
-    
-    return [EncryptionLib doCipher:sTextIn
-                                   key:sKey
-                             Algorithm:kCCAlgorithmCAST context:encryptOrDecrypt];
-    
-}
-
-+ (NSData*)doCipherUseDesMethod:(NSData *)sTextIn
-                            key:(NSData *)sKey
-                        context:(CCOperation)encryptOrDecrypt{
-    return [EncryptionLib doCipher:sTextIn
-                                   key:sKey
-                             Algorithm:kCCAlgorithmDES
-                               context:encryptOrDecrypt];
-}
-
-+ (NSData*)doCipherUseAesMethod:(NSData *)sTextIn
-                            key:(NSData *)sKey
-                        context:(CCOperation)encryptOrDecrypt{
-    return [EncryptionLib doCipher:sTextIn
-                                   key:sKey
-                             Algorithm:kCCAlgorithmAES128
-                               context:encryptOrDecrypt];
-}
-
-+ (NSString *)encodeBase64WithString:(NSString *)inputStr
-{
++ (NSString *)encodeBase64WithString:(NSString *)inputStr {
 #ifdef __IPHONE_7_0
     NSData *preData = [inputStr dataUsingEncoding:NSUTF8StringEncoding];
     return [preData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
@@ -210,7 +230,6 @@ static const short _base64DecodingTable[256] = {
     return [EncryptionLib encodeBase64WithData:data];
 #endif
 }
-
 + (NSString *)encodeBase64WithData:(NSData *)objData {
     
 #ifdef __IPHONE_7_0
@@ -265,6 +284,8 @@ static const short _base64DecodingTable[256] = {
 + (NSData *)decodeBase64WithString:(NSString *)strBase64 {
     
 #ifdef __IPHONE_7_0
+//    NSData *preData = [strBase64 dataUsingEncoding:NSUTF8StringEncoding];
+//    return [preData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength];
     return [[NSData alloc] initWithBase64EncodedString:strBase64 options:NSDataBase64DecodingIgnoreUnknownCharacters];
 #else
     const char * objPointer = [strBase64 cStringUsingEncoding:NSASCIIStringEncoding];

@@ -7,13 +7,23 @@
 //
 
 #import "ViewController.h"
-#import "Base64ViewController.h"
+#import "UIViewController+TapHideKeyboard.h"
+#import "SelectAlgorithmTableViewController.h"
+#import "EncryptionLib.h"
 
 @interface ViewController ()
-<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *cellTitles;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rightBarBtnItem;
+@property (weak, nonatomic) IBOutlet UIButton *decryptBtn;
+
+@property (weak, nonatomic) IBOutlet UITextView *inputTextView;
+@property (weak, nonatomic) IBOutlet UITextView *outputTextView;
+
+@property (weak, nonatomic) IBOutlet UITextField *secureKeyTextFiled;
+
+@property (weak, nonatomic) IBOutlet UILabel *runtimeLabel;
+
+@property (nonatomic, assign) AlgorithmType algorithmType;
 
 @end
 
@@ -22,75 +32,254 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    [self setupViews];
-}
-
-- (void)setupViews {
     
-    _cellTitles = @[@"加密/解密",
-                    @"散列/哈希",
-                    @"Base64",
-                    @"图片/Base64"];
-    
-    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    [self.view addSubview:_tableView];
+    // Add tap to hide keyboard method
+    [self addTapToHideGestureInView:self.view];
     
 }
 
-#pragma mark - UITableViewDelegate, UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+#pragma mark - Setter
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _cellTitles.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setAlgorithmType:(AlgorithmType)algorithmType {
     
-    static NSString *cellIdentifier = @"commonCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    _algorithmType = algorithmType;
+    
+    _secureKeyTextFiled.enabled = algorithmType > AlgorithmTypeBase64;
+    _decryptBtn.enabled = algorithmType > AlgorithmTypeSHA1;
+}
+
+#pragma mark - Encrypt & Decrypt
+
+- (void)encryptMd5 {
+    _outputTextView.text = [EncryptionLib encryptMD5WithString:_inputTextView.text];
+}
+
+- (void)encryptSHA1 {
+    _outputTextView.text = [EncryptionLib encryptSHA1WithString:_inputTextView.text];
+}
+
+- (void)excuteBase64WithEncrypt:(BOOL)isEncrypt {
+    
+    NSString *resultString;
+    if (isEncrypt) {
+        resultString = [EncryptionLib encodeBase64WithString:_inputTextView.text];
+    }else{
+        NSData *proData = [EncryptionLib decodeBase64WithString:_inputTextView.text];
+        resultString = [[NSString alloc] initWithData:proData encoding:NSUTF8StringEncoding];
     }
     
-    cell.textLabel.text = _cellTitles[indexPath.row];
+    _outputTextView.text = resultString;
     
-    return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)excuteASE128WithEncrypt:(BOOL)isEncrypt {
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSData *resultData;
+    NSString *resultString;
     
-    switch (indexPath.row) {
+    if (isEncrypt) {
+        
+        NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
+        resultData = [EncryptionLib excuteAES128WithData:encryptData
+                                               secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
+                                               operation:kCCEncrypt];
+        
+        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        
+    }else{
+        resultData = [EncryptionLib excuteAES128WithData:[EncryptionLib decodeBase64WithString:_inputTextView.text]
+                                               secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
+                                               operation:kCCDecrypt];
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    
+    _outputTextView.text = resultString;
+}
+
+- (void)excuteASE256WithEncrypt:(BOOL)isEncrypt {
+    
+    NSData *resultData;
+    NSString *resultString;
+    
+    if (isEncrypt) {
+        
+        NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
+        resultData = [EncryptionLib excuteAES256WithData:encryptData
+                                               secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
+                                               operation:kCCEncrypt];
+        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        
+    }else{
+        resultData = [EncryptionLib excuteAES256WithData:[EncryptionLib decodeBase64WithString:_inputTextView.text]
+                                               secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
+                                               operation:kCCDecrypt];
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    
+    _outputTextView.text = resultString;
+}
+
+- (void)excuteDESWithEncrypt:(BOOL)isEncrypt {
+    
+    NSData *resultData;
+    NSString *resultString;
+    
+    if (isEncrypt) {
+        NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
+        resultData = [EncryptionLib excuteDESWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
+        
+        resultString = [EncryptionLib encodeBase64WithData:resultData];
+    }else{
+        resultData = [EncryptionLib excuteDESWithData:[EncryptionLib decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
+        
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    
+    _outputTextView.text = resultString;
+}
+
+- (void)excute3DESWithEncrypt:(BOOL)isEncrypt {
+    
+    NSData *resultData;
+    NSString *resultString;
+    
+    if (isEncrypt) {
+        NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
+        resultData = [EncryptionLib excute3DESWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
+        resultString = [EncryptionLib encodeBase64WithData:resultData];
+    }else{
+        resultData = [EncryptionLib excute3DESWithData:[EncryptionLib decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    
+    _outputTextView.text = resultString;
+}
+
+- (void)excuteCASTWithEncrypt:(BOOL)isEncrypt {
+    
+    NSData *resultData;
+    NSString *resultString;
+    
+    if (isEncrypt) {
+        NSData *encryptData = [EncryptionLib decodeBase64WithString:_inputTextView.text];
+        resultData = [EncryptionLib excuteCASTWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
+        resultString = [EncryptionLib encodeBase64WithData:resultData];
+    }else{
+        resultData = [EncryptionLib excuteCASTWithData:[EncryptionLib decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    
+    _outputTextView.text = resultString;
+}
+
+#pragma mark - OnEvent
+
+- (IBAction)onEncrypt:(UIButton *)sender {
+    
+    [self.view endEditing:NO];
+    
+    NSDate* tmpStartData = [NSDate date];
+    //Calculate runtime ======
+    
+    switch (_algorithmType) {
+        case AlgorithmTypeMD5: {
+            [self encryptMd5];
+        }break;
             
-        case 0:{
+        case AlgorithmTypeBase64: {
+            [self excuteBase64WithEncrypt:YES];
+        }break;
             
+        case AlgorithmTypeSHA1: {
+            [self encryptSHA1];
+        }break;
+            
+        case AlgorithmTypeASE128: {
+            [self excuteASE128WithEncrypt:YES];
         }break;
          
-        case 1:{
-            Base64ViewController *vc = [Base64ViewController new];
-            [self.navigationController pushViewController:vc animated:YES];
+        case AlgorithmTypeASE256: {
+            [self excuteASE256WithEncrypt:YES];
         }break;
             
-        case 2:{
-            
+        case AlgorithmTypeDES: {
+            [self excuteDESWithEncrypt:YES];
         }break;
-            
-        case 3:{
-            
+          
+        case AlgorithmType3DES: {
+            [self excute3DESWithEncrypt:YES];
+        }break;
+          
+        case AlgorithmTypeCAST: {
+            [self excuteCASTWithEncrypt:YES];
         }break;
             
         default:
             break;
     }
+    
+    //======
+    double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
+    NSLog(@"cost time = %f", deltaTime);
+    _runtimeLabel.text = [NSString stringWithFormat:@"%.4fs", deltaTime];
+    
 }
+
+- (IBAction)onDecrypt:(UIButton *)sender {
+    
+    [self.view endEditing:NO];
+    
+    NSDate* tmpStartData = [NSDate date];
+    //Calculate runtime ======
+
+    switch (_algorithmType) {
+        case AlgorithmTypeBase64: {
+            [self excuteBase64WithEncrypt:NO];
+        }break;
+            
+        case AlgorithmTypeASE128: {
+            [self excuteASE128WithEncrypt:NO];
+        }break;
+
+        case AlgorithmTypeASE256: {
+            [self excuteASE256WithEncrypt:NO];
+        }break;
+
+        case AlgorithmTypeDES: {
+            [self excuteDESWithEncrypt:NO];
+        }break;
+            
+        case AlgorithmType3DES: {
+            [self excute3DESWithEncrypt:NO];
+        }break;
+            
+        case AlgorithmTypeCAST: {
+            [self excuteCASTWithEncrypt:NO];
+        }break;
+            
+        default:
+            break;
+    }
+    
+    //======
+    double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
+    NSLog(@"cost time = %f", deltaTime);
+    _runtimeLabel.text = [NSString stringWithFormat:@"%.4fs", deltaTime];
+    
+}
+
+- (IBAction)onSelectAlgorithm:(UIBarButtonItem *)sender {
+    
+    SelectAlgorithmTableViewController *vc = [SelectAlgorithmTableViewController new];
+    
+    __weak __typeof(self) ws = self;
+    [vc setDidSelectAlgorithmHandler:^(NSString *title, AlgorithmType type) {
+        
+        [ws.rightBarBtnItem setTitle:title];
+        ws.algorithmType = type;
+    }];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 @end

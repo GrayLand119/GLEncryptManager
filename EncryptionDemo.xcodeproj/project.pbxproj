@@ -15,8 +15,9 @@
 		C3EF7F861E4C46A20062C9B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7F851E4C46A20062C9B6 /* Assets.xcassets */; };
 		C3EF7F891E4C46A20062C9B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7F871E4C46A20062C9B6 /* LaunchScreen.storyboard */; };
 		C3EF7F931E4C48BD0062C9B6 /* EncryptionLib.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F921E4C48BD0062C9B6 /* EncryptionLib.m */; };
-		C3EF7FA11E4DA9610062C9B6 /* Base64ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F9F1E4DA9610062C9B6 /* Base64ViewController.m */; };
-		C3EF7FA21E4DA9610062C9B6 /* Base64ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7FA01E4DA9610062C9B6 /* Base64ViewController.xib */; };
+		C3EF7FB01E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7FAE1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m */; };
+		C3EF7FB11E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7FAF1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib */; };
+		C3EF7FB41E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7FB31E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +34,11 @@
 		C3EF7F8A1E4C46A20062C9B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3EF7F911E4C48BD0062C9B6 /* EncryptionLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptionLib.h; sourceTree = "<group>"; };
 		C3EF7F921E4C48BD0062C9B6 /* EncryptionLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptionLib.m; sourceTree = "<group>"; };
-		C3EF7F9E1E4DA9610062C9B6 /* Base64ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64ViewController.h; sourceTree = "<group>"; };
-		C3EF7F9F1E4DA9610062C9B6 /* Base64ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64ViewController.m; sourceTree = "<group>"; };
-		C3EF7FA01E4DA9610062C9B6 /* Base64ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Base64ViewController.xib; sourceTree = "<group>"; };
+		C3EF7FAD1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAlgorithmTableViewController.h; sourceTree = "<group>"; };
+		C3EF7FAE1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAlgorithmTableViewController.m; sourceTree = "<group>"; };
+		C3EF7FAF1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectAlgorithmTableViewController.xib; sourceTree = "<group>"; };
+		C3EF7FB21E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TapHideKeyboard.h"; sourceTree = "<group>"; };
+		C3EF7FB31E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TapHideKeyboard.m"; sourceTree = "<group>"; };
 		D302199B299C3CDEC859B6C3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F10A6B3FABD662897001D9DF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,17 +93,19 @@
 		C3EF7F781E4C46A20062C9B6 /* EncryptionDemo */ = {
 			isa = PBXGroup;
 			children = (
-				C3EF7F991E4DA9330062C9B6 /* Moudles */,
-				C3EF7F901E4C46C10062C9B6 /* EncryptionLib */,
 				C3EF7F7C1E4C46A20062C9B6 /* AppDelegate.h */,
 				C3EF7F7D1E4C46A20062C9B6 /* AppDelegate.m */,
+				C3EF7F901E4C46C10062C9B6 /* EncryptionLib */,
+				C3EF7F821E4C46A20062C9B6 /* Main.storyboard */,
+				C3EF7FB51E4F01530062C9B6 /* Other */,
+				C3EF7FAD1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.h */,
+				C3EF7FAE1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m */,
+				C3EF7FAF1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib */,
+				C3EF7F791E4C46A20062C9B6 /* Supporting Files */,
+				C3EF7FB21E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.h */,
+				C3EF7FB31E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m */,
 				C3EF7F7F1E4C46A20062C9B6 /* ViewController.h */,
 				C3EF7F801E4C46A20062C9B6 /* ViewController.m */,
-				C3EF7F821E4C46A20062C9B6 /* Main.storyboard */,
-				C3EF7F851E4C46A20062C9B6 /* Assets.xcassets */,
-				C3EF7F871E4C46A20062C9B6 /* LaunchScreen.storyboard */,
-				C3EF7F8A1E4C46A20062C9B6 /* Info.plist */,
-				C3EF7F791E4C46A20062C9B6 /* Supporting Files */,
 			);
 			path = EncryptionDemo;
 			sourceTree = "<group>";
@@ -122,46 +127,14 @@
 			path = EncryptionLib;
 			sourceTree = "<group>";
 		};
-		C3EF7F991E4DA9330062C9B6 /* Moudles */ = {
+		C3EF7FB51E4F01530062C9B6 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				C3EF7F9A1E4DA9330062C9B6 /* Base64 */,
-				C3EF7F9B1E4DA9330062C9B6 /* Base64Image */,
-				C3EF7F9C1E4DA9330062C9B6 /* Encrypt */,
-				C3EF7F9D1E4DA9330062C9B6 /* Hash */,
+				C3EF7F851E4C46A20062C9B6 /* Assets.xcassets */,
+				C3EF7F8A1E4C46A20062C9B6 /* Info.plist */,
+				C3EF7F871E4C46A20062C9B6 /* LaunchScreen.storyboard */,
 			);
-			path = Moudles;
-			sourceTree = "<group>";
-		};
-		C3EF7F9A1E4DA9330062C9B6 /* Base64 */ = {
-			isa = PBXGroup;
-			children = (
-				C3EF7F9E1E4DA9610062C9B6 /* Base64ViewController.h */,
-				C3EF7F9F1E4DA9610062C9B6 /* Base64ViewController.m */,
-				C3EF7FA01E4DA9610062C9B6 /* Base64ViewController.xib */,
-			);
-			path = Base64;
-			sourceTree = "<group>";
-		};
-		C3EF7F9B1E4DA9330062C9B6 /* Base64Image */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Base64Image;
-			sourceTree = "<group>";
-		};
-		C3EF7F9C1E4DA9330062C9B6 /* Encrypt */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Encrypt;
-			sourceTree = "<group>";
-		};
-		C3EF7F9D1E4DA9330062C9B6 /* Hash */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Hash;
+			name = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,7 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3EF7F891E4C46A20062C9B6 /* LaunchScreen.storyboard in Resources */,
-				C3EF7FA21E4DA9610062C9B6 /* Base64ViewController.xib in Resources */,
+				C3EF7FB11E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib in Resources */,
 				C3EF7F861E4C46A20062C9B6 /* Assets.xcassets in Resources */,
 				C3EF7F841E4C46A20062C9B6 /* Main.storyboard in Resources */,
 			);
@@ -286,10 +259,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3EF7FB41E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m in Sources */,
 				C3EF7F931E4C48BD0062C9B6 /* EncryptionLib.m in Sources */,
 				C3EF7F811E4C46A20062C9B6 /* ViewController.m in Sources */,
 				C3EF7F7E1E4C46A20062C9B6 /* AppDelegate.m in Sources */,
-				C3EF7FA11E4DA9610062C9B6 /* Base64ViewController.m in Sources */,
+				C3EF7FB01E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m in Sources */,
 				C3EF7F7B1E4C46A20062C9B6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

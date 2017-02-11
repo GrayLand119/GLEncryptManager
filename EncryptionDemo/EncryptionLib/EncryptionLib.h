@@ -14,29 +14,46 @@
     
 }
 
-+ (NSString *)md5encrypt:(NSString *)inputStr;
-+ (NSString *)sha1encrypt:(NSString *)inputStr;
+#pragma -mark Hash
 
-+ (NSData *) doCipherUseAesMethod:(NSData *)sTextIn
-                              key:(NSData *)sKey
-                          context:(CCOperation)encryptOrDecrypt;
++ (NSString *)encryptMD5WithString:(NSString *)inputStr;
++ (NSString *)encryptSHA1WithString:(NSString *)inputStr;
 
-+ (NSData *) doCipherUse3DesMethod:(NSData *)sTextIn
-                               key:(NSData *)sKey
-                           context:(CCOperation)encryptOrDecrypt;
+#pragma -mark Encrypt & Decrypt
 
-+ (NSData *) doCipherUseDesMethod:(NSData *)sTextIn
-                              key:(NSData *)sKey
-                          context:(CCOperation)encryptOrDecrypt;
++ (NSData *)excuteAES128WithData:(NSData *)inputData
+                       secureKey:(NSData *)key
+                       operation:(CCOperation)operation;
 
-+ (NSData *) doCipherUseCastMethod:(NSData *)sTextIn
-                               key:(NSData *)sKey
-                           context:(CCOperation)encryptOrDecrypt;
++ (NSData *)excuteAES256WithData:(NSData *)inputData
+                       secureKey:(NSData *)key
+                       operation:(CCOperation)operation;
+
++ (NSData *)excuteDESWithData:(NSData *)inputData
+                    secureKey:(NSData *)key
+                    operation:(CCOperation)operation;
+
++ (NSData *)excute3DESWithData:(NSData *)inputData
+                     secureKey:(NSData *)key
+                     operation:(CCOperation)operation;
+
++ (NSData *)excuteCASTWithData:(NSData *)inputData
+                     secureKey:(NSData *)key
+                     operation:(CCOperation)operation;
+
++ (NSData *)encryptWithData:(NSData *)inputData
+                  secureKey:(NSData *)key
+                  algorithm:(CCAlgorithm)algorithm
+                  operation:(CCOperation)operation;
+
+
+
+#pragma -mark Base64
 
 + (NSString *)encodeBase64WithString:(NSString *)inputStr;
 + (NSString *)encodeBase64WithData:(NSData *)inputData;
 
-+ (NSData *) decodeBase64WithString:(NSString *)strBase64;
++ (NSData *)decodeBase64WithString:(NSString *)strBase64;
 
 @end
 
