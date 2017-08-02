@@ -1,12 +1,12 @@
 //
-//  EncryptionLib.m
+//  GLEncryptManager.m
 //  EncryptionDemo
 //
 //  Created by GrayLand on 17/2/9.
 //  Copyright © 2017年 GrayLand. All rights reserved.
 //
 
-#import "EncryptionLib.h"
+#import "GLEncryptManager.h"
 
 #ifndef __IPHONE_7_0
 
@@ -33,7 +33,7 @@ static const short _base64DecodingTable[256] = {
 
 #endif
 
-@implementation EncryptionLib
+@implementation GLEncryptManager
 
 #pragma -mark Hash
 
@@ -68,12 +68,12 @@ static const short _base64DecodingTable[256] = {
     return output;
 }
 
-#pragma -mark Encrypt & Decrypt
+#pragma - mark Encrypt & Decrypt
 
 + (NSData *)excuteAES128WithData:(NSData *)inputData
                      secureKey:(NSData *)key
                      operation:(CCOperation)operation {
-    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmAES128 operation:operation];
+    return [GLEncryptManager encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmAES128 operation:operation];
 }
 
 + (NSData *)excuteAES256WithData:(NSData *)inputData
@@ -104,19 +104,19 @@ static const short _base64DecodingTable[256] = {
 + (NSData *)excuteDESWithData:(NSData *)inputData
                         secureKey:(NSData *)key
                         operation:(CCOperation)operation {
-    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmDES operation:operation];
+    return [GLEncryptManager encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmDES operation:operation];
 }
 
 + (NSData *)excute3DESWithData:(NSData *)inputData
                      secureKey:(NSData *)key
                      operation:(CCOperation)operation {
-    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithm3DES operation:operation];
+    return [GLEncryptManager encryptWithData:inputData secureKey:key algorithm:kCCAlgorithm3DES operation:operation];
 }
 
 + (NSData *)excuteCASTWithData:(NSData *)inputData
                      secureKey:(NSData *)key
                      operation:(CCOperation)operation {
-    return [EncryptionLib encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmCAST operation:operation];
+    return [GLEncryptManager encryptWithData:inputData secureKey:key algorithm:kCCAlgorithmCAST operation:operation];
 }
 
 + (NSData *)encryptWithData:(NSData *)inputData

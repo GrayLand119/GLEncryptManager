@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "UIViewController+TapHideKeyboard.h"
 #import "SelectAlgorithmTableViewController.h"
-#import "EncryptionLib.h"
+#import "GLEncryptManager.h"
 
 @interface ViewController ()
 
@@ -50,21 +50,21 @@
 
 #pragma mark - Encrypt & Decrypt
 
-- (void)encryptMd5 {
-    _outputTextView.text = [EncryptionLib encryptMD5WithString:_inputTextView.text];
+- (void)hashMD5 {
+    _outputTextView.text = [GLEncryptManager encryptMD5WithString:_inputTextView.text];
 }
 
-- (void)encryptSHA1 {
-    _outputTextView.text = [EncryptionLib encryptSHA1WithString:_inputTextView.text];
+- (void)hashSHA1 {
+    _outputTextView.text = [GLEncryptManager encryptSHA1WithString:_inputTextView.text];
 }
 
 - (void)excuteBase64WithEncrypt:(BOOL)isEncrypt {
     
     NSString *resultString;
     if (isEncrypt) {
-        resultString = [EncryptionLib encodeBase64WithString:_inputTextView.text];
+        resultString = [GLEncryptManager encodeBase64WithString:_inputTextView.text];
     }else{
-        NSData *proData = [EncryptionLib decodeBase64WithString:_inputTextView.text];
+        NSData *proData = [GLEncryptManager decodeBase64WithString:_inputTextView.text];
         resultString = [[NSString alloc] initWithData:proData encoding:NSUTF8StringEncoding];
     }
     
@@ -80,14 +80,14 @@
     if (isEncrypt) {
         
         NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
-        resultData = [EncryptionLib excuteAES128WithData:encryptData
+        resultData = [GLEncryptManager excuteAES128WithData:encryptData
                                                secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
                                                operation:kCCEncrypt];
         
-        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        resultString = [GLEncryptManager encodeBase64WithData:resultData];
         
     }else{
-        resultData = [EncryptionLib excuteAES128WithData:[EncryptionLib decodeBase64WithString:_inputTextView.text]
+        resultData = [GLEncryptManager excuteAES128WithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text]
                                                secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
                                                operation:kCCDecrypt];
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
@@ -104,13 +104,13 @@
     if (isEncrypt) {
         
         NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
-        resultData = [EncryptionLib excuteAES256WithData:encryptData
+        resultData = [GLEncryptManager excuteAES256WithData:encryptData
                                                secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
                                                operation:kCCEncrypt];
-        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        resultString = [GLEncryptManager encodeBase64WithData:resultData];
         
     }else{
-        resultData = [EncryptionLib excuteAES256WithData:[EncryptionLib decodeBase64WithString:_inputTextView.text]
+        resultData = [GLEncryptManager excuteAES256WithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text]
                                                secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
                                                operation:kCCDecrypt];
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
@@ -126,11 +126,11 @@
     
     if (isEncrypt) {
         NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
-        resultData = [EncryptionLib excuteDESWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
+        resultData = [GLEncryptManager excuteDESWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
         
-        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        resultString = [GLEncryptManager encodeBase64WithData:resultData];
     }else{
-        resultData = [EncryptionLib excuteDESWithData:[EncryptionLib decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
+        resultData = [GLEncryptManager excuteDESWithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
         
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
     }
@@ -145,10 +145,10 @@
     
     if (isEncrypt) {
         NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
-        resultData = [EncryptionLib excute3DESWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
-        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        resultData = [GLEncryptManager excute3DESWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
+        resultString = [GLEncryptManager encodeBase64WithData:resultData];
     }else{
-        resultData = [EncryptionLib excute3DESWithData:[EncryptionLib decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
+        resultData = [GLEncryptManager excute3DESWithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
     }
     
@@ -161,11 +161,11 @@
     NSString *resultString;
     
     if (isEncrypt) {
-        NSData *encryptData = [EncryptionLib decodeBase64WithString:_inputTextView.text];
-        resultData = [EncryptionLib excuteCASTWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
-        resultString = [EncryptionLib encodeBase64WithData:resultData];
+        NSData *encryptData = [GLEncryptManager decodeBase64WithString:_inputTextView.text];
+        resultData = [GLEncryptManager excuteCASTWithData:encryptData secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCEncrypt];
+        resultString = [GLEncryptManager encodeBase64WithData:resultData];
     }else{
-        resultData = [EncryptionLib excuteCASTWithData:[EncryptionLib decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
+        resultData = [GLEncryptManager excuteCASTWithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text] secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding] operation:kCCDecrypt];
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
     }
     
@@ -183,7 +183,7 @@
     
     switch (_algorithmType) {
         case AlgorithmTypeMD5: {
-            [self encryptMd5];
+            [self hashMD5];
         }break;
             
         case AlgorithmTypeBase64: {
@@ -191,7 +191,7 @@
         }break;
             
         case AlgorithmTypeSHA1: {
-            [self encryptSHA1];
+            [self hashSHA1];
         }break;
             
         case AlgorithmTypeASE128: {

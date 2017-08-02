@@ -1,5 +1,5 @@
 //
-//  EncryptionLib.h
+//  GLEncryptManager.h
 //  EncryptionDemo
 //
 //  Created by GrayLand on 17/2/9.
@@ -10,7 +10,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
 
-@interface EncryptionLib : NSObject {
+@interface GLEncryptManager : NSObject {
     
 }
 
@@ -21,6 +21,15 @@
 
 #pragma -mark Encrypt & Decrypt
 
+/**
+ *  @brief 执行 AES128 加密/解密
+ *
+ *  @param inputData inputData
+ *  @param key       key
+ *  @param operation operation=kCCEncrypt - 加密, operation=kCCDecrypt - 解密
+ *
+ *  @return  result
+ */
 + (NSData *)excuteAES128WithData:(NSData *)inputData
                        secureKey:(NSData *)key
                        operation:(CCOperation)operation;

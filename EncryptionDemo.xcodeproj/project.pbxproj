@@ -14,7 +14,7 @@
 		C3EF7F841E4C46A20062C9B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7F821E4C46A20062C9B6 /* Main.storyboard */; };
 		C3EF7F861E4C46A20062C9B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7F851E4C46A20062C9B6 /* Assets.xcassets */; };
 		C3EF7F891E4C46A20062C9B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7F871E4C46A20062C9B6 /* LaunchScreen.storyboard */; };
-		C3EF7F931E4C48BD0062C9B6 /* EncryptionLib.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F921E4C48BD0062C9B6 /* EncryptionLib.m */; };
+		C3EF7F931E4C48BD0062C9B6 /* GLEncryptManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F921E4C48BD0062C9B6 /* GLEncryptManager.m */; };
 		C3EF7FB01E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7FAE1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m */; };
 		C3EF7FB11E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EF7FAF1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib */; };
 		C3EF7FB41E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7FB31E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m */; };
@@ -32,8 +32,8 @@
 		C3EF7F851E4C46A20062C9B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3EF7F881E4C46A20062C9B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3EF7F8A1E4C46A20062C9B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C3EF7F911E4C48BD0062C9B6 /* EncryptionLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptionLib.h; sourceTree = "<group>"; };
-		C3EF7F921E4C48BD0062C9B6 /* EncryptionLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptionLib.m; sourceTree = "<group>"; };
+		C3EF7F911E4C48BD0062C9B6 /* GLEncryptManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLEncryptManager.h; sourceTree = "<group>"; };
+		C3EF7F921E4C48BD0062C9B6 /* GLEncryptManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLEncryptManager.m; sourceTree = "<group>"; };
 		C3EF7FAD1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAlgorithmTableViewController.h; sourceTree = "<group>"; };
 		C3EF7FAE1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAlgorithmTableViewController.m; sourceTree = "<group>"; };
 		C3EF7FAF1E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectAlgorithmTableViewController.xib; sourceTree = "<group>"; };
@@ -121,8 +121,8 @@
 		C3EF7F901E4C46C10062C9B6 /* EncryptionLib */ = {
 			isa = PBXGroup;
 			children = (
-				C3EF7F911E4C48BD0062C9B6 /* EncryptionLib.h */,
-				C3EF7F921E4C48BD0062C9B6 /* EncryptionLib.m */,
+				C3EF7F911E4C48BD0062C9B6 /* GLEncryptManager.h */,
+				C3EF7F921E4C48BD0062C9B6 /* GLEncryptManager.m */,
 			);
 			path = EncryptionLib;
 			sourceTree = "<group>";
@@ -166,11 +166,12 @@
 		C3EF7F6E1E4C46A20062C9B6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = GrayLand;
 				TargetAttributes = {
 					C3EF7F751E4C46A20062C9B6 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 5UT244TQN9;
 					};
 				};
 			};
@@ -260,7 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3EF7FB41E4EB5400062C9B6 /* UIViewController+TapHideKeyboard.m in Sources */,
-				C3EF7F931E4C48BD0062C9B6 /* EncryptionLib.m in Sources */,
+				C3EF7F931E4C48BD0062C9B6 /* GLEncryptManager.m in Sources */,
 				C3EF7F811E4C46A20062C9B6 /* ViewController.m in Sources */,
 				C3EF7F7E1E4C46A20062C9B6 /* AppDelegate.m in Sources */,
 				C3EF7FB01E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m in Sources */,
@@ -304,8 +305,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -348,8 +351,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -377,6 +382,7 @@
 			baseConfigurationReference = D302199B299C3CDEC859B6C3 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5UT244TQN9;
 				INFOPLIST_FILE = EncryptionDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -390,6 +396,7 @@
 			baseConfigurationReference = 332A5774B16CEFEE85795627 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5UT244TQN9;
 				INFOPLIST_FILE = EncryptionDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
