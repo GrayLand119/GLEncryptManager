@@ -38,6 +38,15 @@
                        secureKey:(NSData *)key
                        operation:(CCOperation)operation;
 
+
+/**
+ AES 256 CBC 模式
+ */
++ (NSData *)excuteAES256CBCModeWithData:(NSData *)inputData
+                                    key:(NSString *)key
+                                     iv:(NSString *)iv
+                              operation:(CCOperation)operation;
+
 + (NSData *)excuteDESWithData:(NSData *)inputData
                     secureKey:(NSData *)key
                     operation:(CCOperation)operation;

@@ -87,16 +87,54 @@ static const short _base64DecodingTable[256] = {
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
     size_t numBytesEncrypted = 0;
-    CCCryptorStatus cryptStatus = CCCrypt(operation, kCCAlgorithmAES128,
+    CCCryptorStatus cryptStatus = CCCrypt(operation,
+                                          kCCAlgorithmAES128,
                                           kCCOptionPKCS7Padding | kCCOptionECBMode,
-                                          keyPtr, kCCBlockSizeAES128,
+                                          keyPtr,
+                                          kCCKeySizeAES256,
                                           NULL,
-                                          [inputData bytes], dataLength,
-                                          buffer, bufferSize,
+                                          [inputData bytes],
+                                          dataLength,
+                                          buffer,
+                                          bufferSize,
                                           &numBytesEncrypted);
     if (cryptStatus == kCCSuccess) {
         return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
     }
+    free(buffer);
+    return nil;
+}
+
++ (NSData *)excuteAES256CBCModeWithData:(NSData *)inputData key:(NSString *)key iv:(NSString *)iv operation:(CCOperation)operation {
+    char keyPtr[kCCKeySizeAES256 + 1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    // IV
+    char ivPtr[kCCKeySizeAES256 + 1];
+    bzero(ivPtr, sizeof(ivPtr));
+    [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
+    
+    NSUInteger dataLength = [inputData length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    size_t numBytesEncrypted = 0;
+    
+    CCCryptorStatus cryptorStatus = CCCrypt(operation, kCCAlgorithmAES128,
+                                            kCCOptionPKCS7Padding,
+                                            keyPtr, kCCKeySizeAES256,
+                                            ivPtr,
+                                            [inputData bytes], dataLength,
+                                            buffer, bufferSize,
+                                            &numBytesEncrypted);
+    
+    if(cryptorStatus == kCCSuccess){
+        NSLog(@"Success");
+        return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
+    }else{
+        NSLog(@"Error");
+    }
+    
     free(buffer);
     return nil;
 }

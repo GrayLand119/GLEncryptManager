@@ -43,12 +43,16 @@
                 [tArr addObject:@"Base64"];
             }break;
                 
-            case AlgorithmTypeASE128: {
+            case AlgorithmTypeAES128: {
                 [tArr addObject:@"ASE128"];
             }break;
             
-            case AlgorithmTypeASE256: {
-                [tArr addObject:@"ASE256"];
+            case AlgorithmTypeAES256: {
+                [tArr addObject:@"ASE256-ECB"];
+            }break;
+                
+            case AlgorithmTypeAES256CBC: {
+                [tArr addObject:@"ASE256-CBC"];
             }break;
                 
             case AlgorithmTypeDES: {

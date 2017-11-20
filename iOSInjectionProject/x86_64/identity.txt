@@ -1,0 +1,2 @@
+/Users/languilin/Library/Developer/Xcode/DerivedData/EncryptionDemo-fqiklbadunkvthewemsiibribmlf/Build/Products/Debug-iphonesimulator/EncryptionDemo.app
+-

@@ -72,7 +72,7 @@
     
 }
 
-- (void)excuteASE128WithEncrypt:(BOOL)isEncrypt {
+- (void)excuteAES128WithEncrypt:(BOOL)isEncrypt {
     
     NSData *resultData;
     NSString *resultString;
@@ -96,7 +96,7 @@
     _outputTextView.text = resultString;
 }
 
-- (void)excuteASE256WithEncrypt:(BOOL)isEncrypt {
+- (void)excuteAES256WithEncrypt:(BOOL)isEncrypt {
     
     NSData *resultData;
     NSString *resultString;
@@ -114,10 +114,39 @@
                                                secureKey:[_secureKeyTextFiled.text dataUsingEncoding:NSUTF8StringEncoding]
                                                operation:kCCDecrypt];
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+        NSData *tData = [GLEncryptManager decodeBase64WithString:resultString];
+        resultString = [[NSString alloc] initWithData:tData encoding:NSUTF8StringEncoding];
     }
-    
+    NSLog(@"ResultString:%@", resultString);
     _outputTextView.text = resultString;
 }
+
+- (void)excuteAES256CBCWithEncrypt:(BOOL)isEncrypt {
+    
+    NSData *resultData;
+    NSString *resultString;
+    
+    if (isEncrypt) {
+        
+        NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
+        resultData = [GLEncryptManager excuteAES256CBCModeWithData:encryptData
+                                                               key:_secureKeyTextFiled.text
+                                                                iv:_secureKeyTextFiled.text
+                                                         operation:kCCEncrypt];
+        resultString = [GLEncryptManager encodeBase64WithData:resultData];
+        
+    }else{
+        resultData = [GLEncryptManager excuteAES256CBCModeWithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text]
+                                                               key:_secureKeyTextFiled.text
+                                                                iv:_secureKeyTextFiled.text
+                                                         operation:kCCDecrypt];
+        
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    NSLog(@"ResultString:%@", resultString);
+    _outputTextView.text = [resultString copy];
+}
+
 
 - (void)excuteDESWithEncrypt:(BOOL)isEncrypt {
     
@@ -194,12 +223,16 @@
             [self hashSHA1];
         }break;
             
-        case AlgorithmTypeASE128: {
-            [self excuteASE128WithEncrypt:YES];
+        case AlgorithmTypeAES128: {
+            [self excuteAES128WithEncrypt:YES];
         }break;
          
-        case AlgorithmTypeASE256: {
-            [self excuteASE256WithEncrypt:YES];
+        case AlgorithmTypeAES256: {
+            [self excuteAES256WithEncrypt:YES];
+        }break;
+            
+        case AlgorithmTypeAES256CBC: {
+            [self excuteAES256CBCWithEncrypt:YES];
         }break;
             
         case AlgorithmTypeDES: {
@@ -237,14 +270,18 @@
             [self excuteBase64WithEncrypt:NO];
         }break;
             
-        case AlgorithmTypeASE128: {
-            [self excuteASE128WithEncrypt:NO];
+        case AlgorithmTypeAES128: {
+            [self excuteAES128WithEncrypt:NO];
         }break;
 
-        case AlgorithmTypeASE256: {
-            [self excuteASE256WithEncrypt:NO];
+        case AlgorithmTypeAES256: {
+            [self excuteAES256WithEncrypt:NO];
         }break;
 
+        case AlgorithmTypeAES256CBC: {
+            [self excuteAES256CBCWithEncrypt:NO];
+        }
+            
         case AlgorithmTypeDES: {
             [self excuteDESWithEncrypt:NO];
         }break;
