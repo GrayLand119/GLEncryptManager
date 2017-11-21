@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F6E295686A40EFBB06A76AF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10A6B3FABD662897001D9DF /* libPods.a */; };
+		C37AAF461FC2B61900C5111D /* NSData+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = C37AAF451FC2B61900C5111D /* NSData+HEX.m */; };
 		C3EF7F7B1E4C46A20062C9B6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F7A1E4C46A20062C9B6 /* main.m */; };
 		C3EF7F7E1E4C46A20062C9B6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F7D1E4C46A20062C9B6 /* AppDelegate.m */; };
 		C3EF7F811E4C46A20062C9B6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3EF7F801E4C46A20062C9B6 /* ViewController.m */; };
@@ -22,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		332A5774B16CEFEE85795627 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C37AAF441FC2B61900C5111D /* NSData+HEX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+HEX.h"; sourceTree = "<group>"; };
+		C37AAF451FC2B61900C5111D /* NSData+HEX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+HEX.m"; sourceTree = "<group>"; };
 		C3EF7F761E4C46A20062C9B6 /* EncryptionDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EncryptionDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3EF7F7A1E4C46A20062C9B6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C3EF7F7C1E4C46A20062C9B6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -93,6 +96,8 @@
 		C3EF7F781E4C46A20062C9B6 /* EncryptionDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C37AAF441FC2B61900C5111D /* NSData+HEX.h */,
+				C37AAF451FC2B61900C5111D /* NSData+HEX.m */,
 				C3EF7F7C1E4C46A20062C9B6 /* AppDelegate.h */,
 				C3EF7F7D1E4C46A20062C9B6 /* AppDelegate.m */,
 				C3EF7F901E4C46C10062C9B6 /* EncryptionLib */,
@@ -265,6 +270,7 @@
 				C3EF7F811E4C46A20062C9B6 /* ViewController.m in Sources */,
 				C3EF7F7E1E4C46A20062C9B6 /* AppDelegate.m in Sources */,
 				C3EF7FB01E4EB29A0062C9B6 /* SelectAlgorithmTableViewController.m in Sources */,
+				C37AAF461FC2B61900C5111D /* NSData+HEX.m in Sources */,
 				C3EF7F7B1E4C46A20062C9B6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

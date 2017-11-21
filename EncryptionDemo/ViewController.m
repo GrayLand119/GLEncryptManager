@@ -10,6 +10,7 @@
 #import "UIViewController+TapHideKeyboard.h"
 #import "SelectAlgorithmTableViewController.h"
 #import "GLEncryptManager.h"
+#import "NSData+HEX.h"
 
 @interface ViewController ()
 
@@ -33,9 +34,11 @@
     
     [super viewDidLoad];
     
+    
     // Add tap to hide keyboard method
     [self addTapToHideGestureInView:self.view];
-    
+    _inputTextView.text = @"13751903428";
+    _secureKeyTextFiled.text = @"f3e00ec14c4cecba";
 }
 
 #pragma mark - Setter
@@ -129,21 +132,28 @@
     if (isEncrypt) {
         
         NSData *encryptData = [_inputTextView.text dataUsingEncoding:NSUTF8StringEncoding];
+        
         resultData = [GLEncryptManager excuteAES256CBCModeWithData:encryptData
                                                                key:_secureKeyTextFiled.text
                                                                 iv:_secureKeyTextFiled.text
                                                          operation:kCCEncrypt];
-        resultString = [GLEncryptManager encodeBase64WithData:resultData];
+        
+        
+        resultString = [resultData hexString];
+//        resultString = [GLEncryptManager encodeBase64WithData:resultData];
         
     }else{
-        resultData = [GLEncryptManager excuteAES256CBCModeWithData:[GLEncryptManager decodeBase64WithString:_inputTextView.text]
+        NSData *decryptData = [NSData dataWithHEXString:_inputTextView.text];
+//        NSData *encryptData = [GLEncryptManager decodeBase64WithString:_inputTextView.text];
+        resultData = [GLEncryptManager excuteAES256CBCModeWithData:decryptData
                                                                key:_secureKeyTextFiled.text
                                                                 iv:_secureKeyTextFiled.text
                                                          operation:kCCDecrypt];
         
         resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
     }
-    NSLog(@"ResultString:%@", resultString);
+    
+    NSLog(@"ResultString:%@", [resultData hexString]);
     _outputTextView.text = [resultString copy];
 }
 
@@ -280,8 +290,7 @@
 
         case AlgorithmTypeAES256CBC: {
             [self excuteAES256CBCWithEncrypt:NO];
-        }
-            
+        }break;
         case AlgorithmTypeDES: {
             [self excuteDESWithEncrypt:NO];
         }break;
