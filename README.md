@@ -61,5 +61,5 @@ MD5,Base64,AES128,ASE256,3DES,DES,CAST加密
 # 文件头部加入
 source 'https://github.com/GrayLand119/GLEncryptManager.git'
 # ...
-pod 'GLEncryptManager', :git => "https://github.com/GrayLand119/GLEncryptManager.git"
+pod 'BPBLESDK-S02-iOS'
 ```
