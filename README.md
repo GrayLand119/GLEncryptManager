@@ -58,5 +58,8 @@ MD5,Base64,AES128,ASE256,3DES,DES,CAST加密
 在 Podfile 中添加以下代码:
 
 ```
+# 文件头部加入
+source 'https://github.com/GrayLand119/GLEncryptManager.git'
+# ...
 pod 'GLEncryptManager', :git => "https://github.com/GrayLand119/GLEncryptManager.git"
 ```
