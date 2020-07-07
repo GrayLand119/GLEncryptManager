@@ -8,6 +8,18 @@ MD5,Base64,AES128,ASE256,3DES,DES,CAST加密
 
 # GLEncryptManager
 
+## 安装方法
+
+```
+// 写在文件开始位置
+source 'https://github.com/GrayLand119/GLSpecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+// 写在 Pod 中
+pod 'GLEncryptManager'
+```
+
+
 ## 使用方法
 
 ```
@@ -51,24 +63,4 @@ MD5,Base64,AES128,ASE256,3DES,DES,CAST加密
                   secureKey:(NSData *)key
                   algorithm:(CCAlgorithm)algorithm
                   operation:(CCOperation)operation;
-```
-
-## 安装方法
-
-```
-// 写在文件开始位置
-source 'https://github.com/GrayLand119/GLSpecs.git'
-source 'https://github.com/CocoaPods/Specs.git'
-
-// 写在 Pod 中
-pod 'GLEncryptManager'
-```
-
-或者:
-
-```
-# 文件头部加入
-source 'https://github.com/GrayLand119/GLEncryptManager.git'
-# ...
-pod 'GLEncryptManager'
 ```
