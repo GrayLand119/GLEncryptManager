@@ -67,5 +67,8 @@ pod 'GLEncryptManager'
 或者:
 
 ```
-pod 'GLEncryptManager', :git => "https://github.com/GrayLand119/GLEncryptManager.git"
+# 文件头部加入
+source 'https://github.com/GrayLand119/GLEncryptManager.git'
+# ...
+pod 'GLEncryptManager'
 ```
