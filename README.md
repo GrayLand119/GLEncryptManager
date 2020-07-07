@@ -55,7 +55,16 @@ MD5,Base64,AES128,ASE256,3DES,DES,CAST加密
 
 ## 安装方法
 
-在 Podfile 中添加以下代码:
+```
+// 写在文件开始位置
+source 'https://github.com/GrayLand119/GLSpecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+// 写在 Pod 中
+pod 'GLEncryptManager'
+```
+
+或者:
 
 ```
 pod 'GLEncryptManager', :git => "https://github.com/GrayLand119/GLEncryptManager.git"
